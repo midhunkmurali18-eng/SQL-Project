@@ -19,7 +19,7 @@ student_gender ENUM('Male','Female','Other') NOT NULL,
 department_id INT,
 student_address VARCHAR(100),
 admission_date DATE NOT NULL,
-CONSTRAINT fk_department FOREIGN KEY ( department_id ) REFERENCES departments(department_id)
+CONSTRAINT fk_department FOREIGN KEY ( department_id ) REFERENCES departments(department_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE courses(
@@ -29,7 +29,7 @@ course_code VARCHAR(50) NOT NULL UNIQUE,
 course_credits INT,
 semester INT CHECK(semester BETWEEN 1 AND 8),
 department_id INT,
-CONSTRAINT fk_department_courses FOREIGN KEY ( department_id ) REFERENCES departments(department_id)
+CONSTRAINT fk_department_courses FOREIGN KEY ( department_id ) REFERENCES departments(department_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE instructors(
@@ -41,7 +41,7 @@ instruct_gender ENUM('Male','Female','Other') NOT NULL,
 instruct_salary INT CHECK(instruct_salary > 0),
 department_id INT,
 hire_date DATE NOT NULL,
-CONSTRAINT fk_instruct_department FOREIGN KEY (department_id) REFERENCES departments(department_id)
+CONSTRAINT fk_instruct_department FOREIGN KEY (department_id) REFERENCES departments(department_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE enrollments(
@@ -50,8 +50,8 @@ student_id INT,
 course_id INT,
 enroll_date DATE NOT NULL,
 enroll_status ENUM('Enrolled','Dropped','Completed') DEFAULT 'Enrolled',
-CONSTRAINT fk_enroll_students FOREIGN KEY (student_id) REFERENCES students(student_id),
-CONSTRAINT fk_enroll_course FOREIGN KEY ( course_id ) REFERENCES courses(course_id)
+CONSTRAINT fk_enroll_students FOREIGN KEY (student_id) REFERENCES students(student_id) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT fk_enroll_course FOREIGN KEY ( course_id ) REFERENCES courses(course_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE class_schedule(
@@ -64,8 +64,8 @@ start_time TIME NOT NULL,
 end_time TIME NOT NULL,
 CHECK ( end_time > start_time ),
 academic_year VARCHAR(50) NOT NULL,
-CONSTRAINT fk_course_schedule FOREIGN KEY (course_id) REFERENCES courses(course_id),
-CONSTRAINT fk_instructor_schedule FOREIGN KEY (instruct_id) REFERENCES instructors(instruct_id)
+CONSTRAINT fk_course_schedule FOREIGN KEY (course_id) REFERENCES courses(course_id) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT fk_instructor_schedule FOREIGN KEY (instruct_id) REFERENCES instructors(instruct_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 SELECT * FROM departments;
